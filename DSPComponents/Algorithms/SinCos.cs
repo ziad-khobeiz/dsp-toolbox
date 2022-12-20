@@ -8,7 +8,7 @@ using DSPAlgorithms.DataStructures;
 
 namespace DSPAlgorithms.Algorithms
 {
-    public class SinCos: Algorithm
+    public class SinCos : Algorithm
     {
         public string type { get; set; }
         public float A { get; set; }

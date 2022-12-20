@@ -12,11 +12,11 @@ namespace DSPComponentsUnitTest
         [TestMethod]
         public void SinCosTestMethod1()
         {
-            SinCos obj= new SinCos();
+            SinCos obj = new SinCos();
             obj.type = "sin";
-            obj.A=3;
-            obj.AnalogFrequency=360;
-            obj.SamplingFrequency=720;
+            obj.A = 3;
+            obj.AnalogFrequency = 360;
+            obj.SamplingFrequency = 720;
             obj.PhaseShift = 1.96349540849362f;
 
             obj.Run();

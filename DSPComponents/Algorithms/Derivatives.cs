@@ -19,13 +19,13 @@ namespace DSPAlgorithms.Algorithms
             // Shifter Right
             Shifter ShiftRight = new Shifter();
             ShiftRight.InputSignal = InputSignal;
-            ShiftRight.ShiftingValue = -1;
+            ShiftRight.ShiftingValue = (InputSignal.Periodic ? 1 : -1);
             ShiftRight.Run();
 
             // Shifter Left
             Shifter ShiftLeft = new Shifter();
             ShiftLeft.InputSignal = InputSignal;
-            ShiftLeft.ShiftingValue = 1;
+            ShiftLeft.ShiftingValue = (InputSignal.Periodic ? -1 : 1);
             ShiftLeft.Run();
 
             List<float> FirstDerivativeValues = new List<float>();

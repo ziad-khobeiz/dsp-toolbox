@@ -37,7 +37,6 @@ namespace DSPAlgorithms.Algorithms
                 Complex Signal2 = Complex.FromPolarCoordinates(dftSignal2.OutputFreqDomainSignal.FrequenciesAmplitudes[i], dftSignal2.OutputFreqDomainSignal.FrequenciesPhaseShifts[i]);
 
                 Complex Signal1Signal2Mul = Complex.Multiply(Signal1, Signal2);
-                output.Frequencies.Add(0);
                 output.FrequenciesPhaseShifts.Add((float)Signal1Signal2Mul.Phase);
                 output.FrequenciesAmplitudes.Add((float)Signal1Signal2Mul.Magnitude);
             }

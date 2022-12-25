@@ -36,10 +36,14 @@ namespace DSPAlgorithms.Algorithms
                         Sum += InputSignal1.Samples[i - j] * InputSignal2.Samples[j];
                     }
                 }
-                if (Sum == 0 && i == XLength + HLength - 2) continue;
-
                 Indices.Add(MinIndicies);
                 Y.Add(Sum);
+            }
+
+            while (Y.Count > 0 && Y.Last() == 0)
+            {
+                Y.RemoveAt(Indices.Count - 1);
+                Indices.RemoveAt(Indices.Count - 1);
             }
 
             OutputConvolvedSignal = new Signal(Y, Indices, false);

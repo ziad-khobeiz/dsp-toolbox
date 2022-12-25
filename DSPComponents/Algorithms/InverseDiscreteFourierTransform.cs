@@ -15,7 +15,7 @@ namespace DSPAlgorithms.Algorithms
 
         public override void Run()
         {
-            int N = InputFreqDomainSignal.Frequencies.Count;
+            int N = InputFreqDomainSignal.FrequenciesAmplitudes.Count;
             OutputTimeDomainSignal = new Signal(new List<float>(N), false);
             for (int n = 0; n < N; ++n)
             {

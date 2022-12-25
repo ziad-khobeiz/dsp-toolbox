@@ -21,9 +21,9 @@ namespace DSPAlgorithms.Algorithms
                 float sum = 0;
                 for (int n = 0; n < length; n++)
                 {
-                    sum += InputSignal.Samples[n] * (float)Math.Cos(Math.PI / (4.0f * InputSignal.Samples.Count) * (2 * n - 1) * (2 * k - 1));
+                    sum += InputSignal.Samples[n] * (float)Math.Cos(Math.PI / (4.0f * length) * (2 * n - 1) * (2 * k - 1));
                 }
-                sum = (float)Math.Sqrt(2.0f / InputSignal.Samples.Count) * sum;
+                sum = (float)Math.Sqrt(2.0f / length) * sum;
                 OutputSignal.Samples.Add(sum);
             }
         }

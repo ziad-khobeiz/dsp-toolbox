@@ -24,9 +24,9 @@ namespace DSPAlgorithms.Algorithms
             float maxValue = float.MinValue, maxIndx = 0;
             for(int i = 0; i < directCorrelation.OutputNormalizedCorrelation.Count; i++)
             {
-                if(maxValue < directCorrelation.OutputNormalizedCorrelation[i])
+                if(maxValue < Math.Abs(directCorrelation.OutputNormalizedCorrelation[i]))
                 {
-                    maxValue = directCorrelation.OutputNormalizedCorrelation[i];
+                    maxValue = Math.Abs(directCorrelation.OutputNormalizedCorrelation[i]);
                     maxIndx = i;
                 }
             }

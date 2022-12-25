@@ -16,7 +16,44 @@ namespace DSPAlgorithms.Algorithms
 
         public override void Run()
         {
-            throw new NotImplementedException();
+            List<float> NewInputSignal2 = new List<float>();
+            int length = InputSignal1.Samples.Count;
+            for (int i = 0; i < length; i++)
+            {
+                if (InputSignal2 == null) NewInputSignal2.Add(InputSignal1.Samples[i]);
+                else NewInputSignal2.Add(InputSignal2.Samples[i]);
+            }
+            for (int i = 0; i < length; i++)
+            {
+                NewInputSignal2.Add(0);
+            }
+            float sum1 = 0, sum2 = 0;
+            for (int i = 0; i < length; i++)
+            {
+                sum1 += InputSignal1.Samples[i] * InputSignal1.Samples[i];
+                sum2 += NewInputSignal2[i] * NewInputSignal2[i];
+            }
+            float sumMul = sum1 * sum2;
+            sumMul = (float)Math.Sqrt(sumMul);
+            sumMul /= length;
+
+            List<float> NonNormalized = new List<float>();
+            List<float> Normalized = new List<float>();
+            for (int j = 0; j < length; j++)
+            {
+                float sum = 0;
+                for (int n = 0; n < length; n++)
+                {
+                    sum += InputSignal1.Samples[n] * NewInputSignal2[n + j];
+                }
+                sum /= length;
+                NonNormalized.Add(sum);
+                Normalized.Add(sum / sumMul);
+                if(InputSignal1.Periodic) NewInputSignal2[length + j] = NewInputSignal2[j];
+            }
+            OutputNonNormalizedCorrelation = new List<float>(NonNormalized);
+            OutputNormalizedCorrelation = new List<float>(Normalized);
         }
+
     }
 }

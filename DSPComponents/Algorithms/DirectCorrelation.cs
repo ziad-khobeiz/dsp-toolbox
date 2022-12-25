@@ -49,7 +49,7 @@ namespace DSPAlgorithms.Algorithms
                 sum /= length;
                 NonNormalized.Add(sum);
                 Normalized.Add(sum / sumMul);
-                if(InputSignal1.Periodic) NewInputSignal2[length + j] = NewInputSignal2[j];
+                if (InputSignal1.Periodic) NewInputSignal2[length + j] = NewInputSignal2[j];
             }
             OutputNonNormalizedCorrelation = new List<float>(NonNormalized);
             OutputNormalizedCorrelation = new List<float>(Normalized);

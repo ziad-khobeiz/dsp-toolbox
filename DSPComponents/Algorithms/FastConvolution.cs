@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 using DSPAlgorithms.DataStructures;
 
 namespace DSPAlgorithms.Algorithms
@@ -18,31 +19,38 @@ namespace DSPAlgorithms.Algorithms
         /// </summary>
         public override void Run()
         {
-            int XLength = InputSignal1.Samples.Count;
-            int HLength = InputSignal2.Samples.Count;
+            int length = InputSignal1.Samples.Count + InputSignal2.Samples.Count - 1;
 
-            int MinIndicies = InputSignal1.SamplesIndices.Min() + InputSignal2.SamplesIndices.Min();
+            while(InputSignal1.Samples.Count < length) InputSignal1.Samples.Add(0);
+            while (InputSignal2.Samples.Count < length) InputSignal2.Samples.Add(0);
+            
+            DiscreteFourierTransform dftSignal1 = new DiscreteFourierTransform();
+            dftSignal1.InputTimeDomainSignal = InputSignal1;
+            dftSignal1.Run();
 
-            List<float> Y = new List<float>();
-            List<int> Indices = new List<int>();
+            DiscreteFourierTransform dftSignal2 = new DiscreteFourierTransform();
+            dftSignal2.InputTimeDomainSignal = InputSignal2;
+            dftSignal2.Run();
 
-            for (int i = 0; i < XLength + HLength - 1; i++, MinIndicies++)
+            Signal output = new Signal(false, new List<float>(), new List<float>(), new List<float>());
+            for (int i = 0; i < length; i++)
             {
-                float Sum = 0;
-                for (int j = 0; j < HLength; j++)
-                {
-                    if (i - j >= 0 && i - j < XLength)
-                    {
-                        Sum += InputSignal1.Samples[i - j] * InputSignal2.Samples[j];
-                    }
-                }
-                if (Sum == 0 && i == XLength + HLength - 2) continue;
+                Complex Signal1 = Complex.FromPolarCoordinates(dftSignal1.OutputFreqDomainSignal.FrequenciesAmplitudes[i], dftSignal1.OutputFreqDomainSignal.FrequenciesPhaseShifts[i]);
 
-                Indices.Add(MinIndicies);
-                Y.Add(Sum);
+                Complex Signal2 = Complex.FromPolarCoordinates(dftSignal2.OutputFreqDomainSignal.FrequenciesAmplitudes[i], dftSignal2.OutputFreqDomainSignal.FrequenciesPhaseShifts[i]);
+
+                Complex Signal1Signal2Mul = Complex.Multiply(Signal1, Signal2);
+                output.Frequencies.Add(0);
+                output.FrequenciesPhaseShifts.Add((float)Signal1Signal2Mul.Phase);
+                output.FrequenciesAmplitudes.Add((float)Signal1Signal2Mul.Magnitude);
             }
 
-            OutputConvolvedSignal = new Signal(Y, Indices, false);
+            InverseDiscreteFourierTransform Idft = new InverseDiscreteFourierTransform();
+            Idft.InputFreqDomainSignal = output;
+            Idft.Run();
+            
+            OutputConvolvedSignal = Idft.OutputTimeDomainSignal;
+
         }
     }
 }

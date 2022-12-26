@@ -66,6 +66,7 @@
     <Compile Include="MovingAverageTestCases.cs" />
     <Compile Include="MultiplySignalByConstantTestCases.cs" />
     <Compile Include="NormalizerTestCases.cs" />
+    <Compile Include="PracticalTask2TestCases.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuantizationAndEncodingTestCases.cs" />
     <Compile Include="Sampling_Testcases.cs" />

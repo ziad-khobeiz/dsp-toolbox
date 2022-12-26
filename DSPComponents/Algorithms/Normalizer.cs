@@ -23,12 +23,14 @@ namespace DSPAlgorithms.Algorithms
                 signal_max_value = Math.Max(signal_max_value, sample);
                 signal_min_value = Math.Min(signal_min_value, sample);
             }
-            OutputNormalizedSignal = new Signal(new List<float>(), false);
+            List<float> values = new List<float>();
             foreach (float sample in InputSignal.Samples)
             {
                 float normalized_sample = ((sample - signal_min_value) / (signal_max_value - signal_min_value)) * (InputMaxRange - InputMinRange) + InputMinRange;
-                OutputNormalizedSignal.Samples.Add(normalized_sample);
+                values.Add(normalized_sample);
             }
+
+            OutputNormalizedSignal = new Signal(values, false);
         }
     }
 }

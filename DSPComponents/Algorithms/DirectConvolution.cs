@@ -21,7 +21,13 @@ namespace DSPAlgorithms.Algorithms
             int XLength = InputSignal1.Samples.Count;
             int HLength = InputSignal2.Samples.Count;
 
-            int MinIndicies = InputSignal1.SamplesIndices.Min() + InputSignal2.SamplesIndices.Min();
+            int MinH = InputSignal2.SamplesIndices.Min();
+            int MinX = InputSignal1.SamplesIndices.Min();
+
+            int MaxH = InputSignal2.SamplesIndices.Max();
+            int MaxX = InputSignal1.SamplesIndices.Max();
+
+            int MinIndicies = MinH + MinX;
 
             List<float> Y = new List<float>();
             List<int> Indices = new List<int>();
@@ -29,20 +35,20 @@ namespace DSPAlgorithms.Algorithms
             for (int i = 0; i < XLength + HLength - 1; i++, MinIndicies++)
             {
                 float Sum = 0;
-                for(int j = 0; j < HLength; j++)
+                for(int j = MinX; j <= MaxX; j++)
                 {
-                    if (i - j >= 0 && i - j < XLength)
+                    if (MinIndicies - j >= MinH && MinIndicies - j <= MaxH)
                     {
-                        Sum += InputSignal1.Samples[i - j] * InputSignal2.Samples[j];
+                        Sum += InputSignal1.Samples[j - MinX] * InputSignal2.Samples[(MinIndicies - j) - MinH];
                     }
                 }
                 Indices.Add(MinIndicies);
                 Y.Add(Sum);
             }
 
-            while (Y.Count > 0 && Y.Last() == 0)
+            while (Y.Count > 0 && Math.Abs(Y.Last()) == 0)
             {
-                Y.RemoveAt(Indices.Count - 1);
+                Y.RemoveAt(Y.Count - 1);
                 Indices.RemoveAt(Indices.Count - 1);
             }
 

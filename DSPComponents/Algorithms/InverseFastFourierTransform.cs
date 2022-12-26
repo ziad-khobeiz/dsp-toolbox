@@ -15,18 +15,7 @@ namespace DSPAlgorithms.Algorithms
 
         public override void Run()
         {
-            int N = InputFreqDomainSignal.FrequenciesAmplitudes.Count;
-            OutputTimeDomainSignal = new Signal(new List<float>(N), false);
-            for (int n = 0; n < N; ++n)
-            {
-                Complex sum = new Complex();
-                for (int k = 0; k < N; ++k)
-                {
-                    Complex x_k = Complex.FromPolarCoordinates(InputFreqDomainSignal.FrequenciesAmplitudes[k], InputFreqDomainSignal.FrequenciesPhaseShifts[k]);
-                    sum += x_k * Complex.Exp(new Complex(0, k * 2 * Math.PI * n / N));
-                }
-                OutputTimeDomainSignal.Samples.Add((float)((1.0 / N) * sum.Real));
-            }
+           throw new NotImplementedException();
         }
     }
 }

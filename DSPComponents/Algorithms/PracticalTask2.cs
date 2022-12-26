@@ -33,7 +33,7 @@ namespace DSPAlgorithms.Algorithms
 
             fir.Run();
             LastOutput = fir.OutputYn;
-            SaveSignalTimeDomain(LastOutput, "/Filtering.ds");
+            SaveSignalTimeDomain(LastOutput, "Filtering.ds");
 
             if(newFs >= 2 * maxF)
             {
@@ -45,7 +45,7 @@ namespace DSPAlgorithms.Algorithms
 
                 sampling.Run();
                 LastOutput = sampling.OutputSignal;
-                SaveSignalTimeDomain(LastOutput, "/Sampling.ds");
+                SaveSignalTimeDomain(LastOutput, "Sampling.ds");
             }
 
             DC_Component dC_Component = new DC_Component();
@@ -53,7 +53,7 @@ namespace DSPAlgorithms.Algorithms
 
             dC_Component.Run();
             LastOutput = dC_Component.OutputSignal;
-            SaveSignalTimeDomain(LastOutput, "/DC.ds");
+            SaveSignalTimeDomain(LastOutput, "DC.ds");
 
             Normalizer normalizer = new Normalizer();
             normalizer.InputSignal = LastOutput;
@@ -62,48 +62,47 @@ namespace DSPAlgorithms.Algorithms
 
             normalizer.Run();
             LastOutput = normalizer.OutputNormalizedSignal;
-            SaveSignalTimeDomain(LastOutput, "/Normalizing.ds");
+            SaveSignalTimeDomain(LastOutput, "Normalizing.ds");
 
             DiscreteFourierTransform discreteFourierTransform = new DiscreteFourierTransform();
             discreteFourierTransform.InputTimeDomainSignal = LastOutput;
+            discreteFourierTransform.InputSamplingFrequency = Fs;
 
             discreteFourierTransform.Run();
             LastOutput = discreteFourierTransform.OutputFreqDomainSignal;
             OutputFreqDomainSignal = LastOutput;
-            SaveSignalFreqDomain(LastOutput, "/DFT.ds");
+            SaveSignalFreqDomain(LastOutput, "DFT.ds");
         }
 
         private static void SaveSignalFreqDomain(Signal signal, string filepath)
         {
-            using (StreamWriter sw = new StreamWriter(filepath))
+            StreamWriter sw = new StreamWriter(Path.Combine("OutputSignals", filepath));
+
+            sw.WriteLine(1);
+            sw.WriteLine(0);
+            sw.WriteLine(signal.FrequenciesAmplitudes.Count);
+            for (int i = 0; i < signal.FrequenciesAmplitudes.Count; ++i)
             {
-                sw.WriteLine(1);
-                sw.WriteLine(0);
-                sw.WriteLine(signal.FrequenciesAmplitudes.Count);
-                for (int i = 0; i < signal.FrequenciesAmplitudes.Count; ++i)
-                {
-                    sw.Write(Math.Round(signal.Frequencies[i], 1));
-                    sw.Write(' ');
-                    sw.Write(signal.FrequenciesAmplitudes[i]);
-                    sw.Write(' ');
-                    sw.WriteLine(signal.FrequenciesPhaseShifts[i]);
-                }
+                sw.Write(Math.Round(signal.Frequencies[i], 1));
+                sw.Write(' ');
+                sw.Write(signal.FrequenciesAmplitudes[i]);
+                sw.Write(' ');
+                sw.WriteLine(signal.FrequenciesPhaseShifts[i]);
             }
         }
 
         private static void SaveSignalTimeDomain(Signal signal, string filepath)
         {
-            using (StreamWriter sw = new StreamWriter(filepath))
+            StreamWriter sw = new StreamWriter(Path.Combine("OutputSignals", filepath));
+
+            sw.WriteLine(0);
+            sw.WriteLine(0);
+            sw.WriteLine(signal.Samples.Count);
+            for (int i = 0; i < signal.Samples.Count; ++i)
             {
-                sw.WriteLine(0);
-                sw.WriteLine(0);
-                sw.WriteLine(signal.Samples.Count);
-                for (int i = 0; i < signal.Samples.Count; ++i)
-                {
-                    sw.Write(signal.SamplesIndices[i]);
-                    sw.Write(' ');
-                    sw.WriteLine(signal.Samples[i]);
-                }
+                sw.Write(signal.SamplesIndices[i]);
+                sw.Write(' ');
+                sw.WriteLine(signal.Samples[i]);
             }
         }
 

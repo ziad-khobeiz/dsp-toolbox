@@ -15,8 +15,9 @@ namespace DSPAlgorithms.Algorithms
         public override void Run()
         {
             float mean = InputSignal.Samples.Average();
-            OutputSignal = new Signal(new List<float>(InputSignal.Samples.Count()), false);
+            OutputSignal = new Signal(new List<float>(), false);
             OutputSignal.SamplesIndices = InputSignal.SamplesIndices.ToList();
+
             for (int i = 0; i < InputSignal.Samples.Count; i++)
             {
                 OutputSignal.Samples.Add(InputSignal.Samples[i] - mean);

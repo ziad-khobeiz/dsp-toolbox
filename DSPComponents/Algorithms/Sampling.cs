@@ -71,7 +71,7 @@ namespace DSPAlgorithms.Algorithms
                 }
                 else
                 {
-                    // ERROR
+                    throw new Exception("L and M cannot be both 0");
                 }
             }
         }

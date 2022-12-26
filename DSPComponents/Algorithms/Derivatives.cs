@@ -38,9 +38,9 @@ namespace DSPAlgorithms.Algorithms
             }
             FirstDerivative = new Signal(FirstDerivativeValues, false);
 
-            for (int i = 1; i < InputSignal.Samples.Count; i++)
+            for (int i = 1; i < InputSignal.Samples.Count - 1; i++)
             {
-                float derivativeValue = ShiftLeft.OutputShiftedSignal.Samples[i] - InputSignal.Samples[i - 1] - FirstDerivative.Samples[i - 1];
+                float derivativeValue = ShiftLeft.OutputShiftedSignal.Samples[i + 1] - 2 * InputSignal.Samples[i] + ShiftRight.OutputShiftedSignal.Samples[i - 1];
                 SecondDerivativeValues.Add(derivativeValue);
             }
             SecondDerivative = new Signal(SecondDerivativeValues, false);
